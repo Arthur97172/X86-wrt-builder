@@ -129,6 +129,7 @@ PACKAGES="$PACKAGES kmod-nft-tproxy"
 PACKAGES="$PACKAGES kmod-nft-socket"
 PACKAGES="$PACKAGES shadowsocksr-libev-ssr-redir"
 PACKAGES="$PACKAGES bash"
+PACKAGES="$PACKAGES kmod-xdp-sockets-diag"
 
 # LuCI 中文本地化与插件
 #PACKAGES="$PACKAGES luci-i18n-package-manager-zh-cn"
