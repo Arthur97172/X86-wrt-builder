@@ -14,7 +14,7 @@ echo "第三方软件包: $CUSTOM_PACKAGES"
 
 # 同步第三方仓库
 echo "$(date '+%Y-%m-%d %H:%M:%S') - 同步第三方软件仓库..."
-git clone --depth=1 https://github.com/wukongdaily/store.git /tmp/store-repo
+git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo
 
 mkdir -p extra-packages
 mkdir -p packages
