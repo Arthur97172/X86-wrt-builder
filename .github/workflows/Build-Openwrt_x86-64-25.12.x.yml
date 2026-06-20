@@ -65,7 +65,8 @@ jobs:
           cp x86/repositories imagebuilder/
           cp shell/prepare-packages.sh imagebuilder/
           cp shell/apk-custom-packages.sh imagebuilder/
-          mkdir -p imagebuilder/files/etc/uci-defaults
+          mkdir -p imagebuilder/files/etc/uci-defaults imagebuilder/files/etc/apk
+          cp files/uci-defaults/99-custom.sh imagebuilder/files/etc/uci-defaults/
           # 追加自定义源到 APK repositories（FIRMWARE 内 /etc/apk/repositories 会用这个）
           cat files/customfeeds/25.customfeeds.conf >> imagebuilder/files/etc/apk/repositories
           echo "✅ 文件准备完成"
