@@ -32,14 +32,26 @@ fi
 sh prepare-packages.sh
 ls -lah packages/ | tail -5
 
-# 复制 25.12.x 自定义源配置进固件
-if [ -f "files/customfeeds/25.customfeeds.conf" ]; then
-    mkdir -p files/etc/apk
-    cp files/customfeeds/25.customfeeds.conf files/etc/apk/customfeeds.conf
-    echo "✅ 已复制 25.customfeeds.conf 到固件"
+## 复制 25.12.x 自定义源配置进固件
+#if [ -f "files/customfeeds/25.customfeeds.conf" ]; then
+#    mkdir -p files/etc/apk
+#    cp files/customfeeds/25.customfeeds.conf files/etc/apk/customfeeds.conf
+#    echo "✅ 已复制 25.customfeeds.conf 到固件"
+#else
+#    echo "⚪️ 未找到 25.customfeeds.conf，跳过"
+#fi
+
+# ================== customfeeds.conf 验证 ==================
+echo ""
+echo "================ customfeeds.conf 在固件中的内容 ================"
+if [ -f files/etc/apk/customfeeds.conf ]; then
+    cat files/etc/apk/customfeeds.conf
+    echo "→ 已成功放入固件！刷机后 apk update 就能使用自定义源"
 else
-    echo "⚪️ 未找到 25.customfeeds.conf，跳过"
+    echo "⚠️ 警告：customfeeds.conf 未找到！请检查 volume 挂载路径"
 fi
+echo "================================================================="
+echo ""
 
 # 定义所需安装的包列表
 # [注意] libc / libgcc 由 base 系统提供，不单独列出
