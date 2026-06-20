@@ -12,7 +12,22 @@ else
   # ============= 同步第三方插件库==============
   # 同步第三方软件仓库run/ipk
   echo "🔄 正在同步第三方软件仓库 Cloning run file repo..."
-  git clone --depth=1 https://github.com/wukongdaily/store.git /tmp/store-run-repo
+  # 增加超时和重试机制
+  rm -rf /tmp/store-run-repo 2>/dev/null
+  if ! git clone --depth=1 https://github.com/wukongdaily/store.git /tmp/store-run-repo; then
+      echo "❌ git clone 失败！请检查网络或仓库是否可用"
+      exit 1
+  fi
+
+  # === 验证克隆结果 ===
+  echo "✅ git clone 完成，开始验证..."
+  if [ ! -d "/tmp/store-run-repo" ]; then
+      echo "❌ 仓库目录不存在，克隆失败"
+      exit 1
+  fi
+
+  echo "📁 仓库目录结构："
+  ls -la /tmp/store-run-repo/
 
   # 拷贝 run/x86 下所有 run 文件和ipk文件 到 extra-packages 目录
   mkdir -p extra-packages
