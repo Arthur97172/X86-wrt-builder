@@ -111,7 +111,7 @@ jobs:
       - name: 🚀 上传到 Release
         uses: softprops/action-gh-release@v2.2.1
         with:
-          tag_name: OpenWrt-${{ inputs.luci_version }}-x86-64-RELEASE
+          tag_name: OpenWrt-${{ inputs.luci_version }}-x86-64-RELEASE-Dokcer ${{ inputs.include_docker }}
           body_path: ${{ github.workspace }}/router-info.md
           overwrite: true
           files: |
