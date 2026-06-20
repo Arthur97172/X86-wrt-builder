@@ -20,7 +20,7 @@ on:
       ipaddr:
         description: '请输入管理IP'
         required: true
-        default: '192.168.5.1'
+        default: '192.168.10.1'
       include_docker:
         description: "是否编译 Docker 插件"
         required: true
