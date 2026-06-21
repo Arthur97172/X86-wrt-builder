@@ -56,6 +56,7 @@ fi
 # ============================================
 # 步骤2: 处理第三方插件（仅当存在时）
 # ============================================
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 if [ "$HAS_CUSTOM_PACKAGES" = "yes" ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - 开始处理第三方APK..."
 
@@ -67,17 +68,58 @@ if [ "$HAS_CUSTOM_PACKAGES" = "yes" ]; then
         exit 1
     }
 
-    # 将第三方 APK 复制到 packages/ 目录
-    # packages/ 目录会被 ImageBuilder 自动扫描，第三方包会覆盖同名 base 包
-    find /tmp/store-repo/apk/x86_64 -name '*.apk' -exec cp {} packages/ \;
+    # 创建临时目录存放第三方 APK
+    mkdir -p thirdparty
+    for apk in /tmp/store-repo/apk/x86_64/*.apk; do
+        [ -f "$apk" ] && cp "$apk" thirdparty/
+    done
 
-    APK_COUNT=$(find packages -name '*.apk' | wc -l)
-    echo "✅ packages/ 目录现有 $APK_COUNT 个APK文件"
+    APK_COUNT=$(find thirdparty -name '*.apk' | wc -l)
+    echo "✅ thirdparty/ 目录现有 $APK_COUNT 个APK文件"
 
     if [ "$APK_COUNT" -eq 0 ]; then
         echo "❌ 没有找到APK文件"
         exit 1
     fi
+
+    # 查找 apk 工具（ImageBuilder 或系统）
+    APK_TOOL=""
+    for path in "$SCRIPT_DIR/staging_dir/host/bin/apk" "/usr/bin/apk" "/usr/local/bin/apk"; do
+        if [ -x "$path" ]; then
+            APK_TOOL="$path"
+            break
+        fi
+    done
+
+    # 使用 apk 工具生成本地索引
+    echo "生成 APK 本地索引..."
+    if [ -n "$APK_TOOL" ]; then
+        echo "使用 apk 工具: $APK_TOOL"
+        cd thirdparty
+        # 生成索引，跳过签名检查
+        $APK_TOOL index --output APKINDEX.tar.gz --no-check-signature *.apk 2>&1
+        cd "$SCRIPT_DIR"
+    else
+        echo "⚠️ 未找到 apk 工具，跳过索引生成"
+        # 安装 apk-tools
+        echo "尝试安装 apk-tools..."
+        apt-get update -qq 2>/dev/null && apt-get install -y -qq apk-tools 2>/dev/null
+        if [ -x "/usr/bin/apk" ]; then
+            APK_TOOL="/usr/bin/apk"
+            cd thirdparty
+            $APK_TOOL index --output APKINDEX.tar.gz --no-check-signature *.apk 2>&1
+            cd "$SCRIPT_DIR"
+        fi
+    fi
+
+    # 复制第三方 APK 和索引到 packages/ 目录
+    cp thirdparty/*.apk packages/ 2>/dev/null || true
+    if [ -f thirdparty/APKINDEX.tar.gz ]; then
+        cp thirdparty/APKINDEX.tar.gz packages/
+        echo "✅ 已复制 APKINDEX.tar.gz 到 packages/"
+    fi
+
+    echo "✅ packages/ 目录现有 $(find packages -name '*.apk' | wc -l) 个APK文件"
 else
     echo "⚪️ 无第三方插件，跳过下载"
 fi
