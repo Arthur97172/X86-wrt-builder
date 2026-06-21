@@ -14,7 +14,7 @@ else
   echo "🔄 正在同步第三方软件仓库 Cloning run file repo..."
   # 增加超时和重试机制
   rm -rf /tmp/store-run-repo 2>/dev/null
-  if ! git clone --depth=1 https://github.com/wukongdaily/store.git /tmp/store-run-repo; then
+  if ! git clone --depth=1 https://github.com/Arthur97172/OpenWrt-App.git /tmp/store-run-repo; then
       echo "❌ git clone 失败！请检查网络或仓库是否可用"
       exit 1
   fi
@@ -31,7 +31,7 @@ else
 
   # 拷贝 run/x86 下所有 run 文件和ipk文件 到 extra-packages 目录
   mkdir -p extra-packages
-  cp -r /tmp/store-run-repo/run/x86/* extra-packages/
+  cp -r /tmp/store-run-repo/ipk/x86_64/* extra-packages/
 
   echo "✅ Run files copied to extra-packages:"
   ls -lh extra-packages/*.run
