@@ -8,29 +8,47 @@ INCLUDE_DOCKER=${INCLUDE_DOCKER:-"no"}
 echo "Rootfs Size: $ROOTFS_PARTSIZE MB"
 echo "Include Docker: $INCLUDE_DOCKER"
 
-# 同步第三方仓库
-echo "$(date '+%Y-%m-%d %H:%M:%S') - 同步第三方软件仓库..."
-git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo
-
-mkdir -p extra-packages
-mkdir -p packages
-
-# 加载第三方插件配置（使用 25.12 配置）
-source apk-custom-packages.sh
-echo "第三方软件包: $CUSTOM_PACKAGES"
-
-# 复制 x86 的 .run 文件
-if [ -d "/tmp/store-repo/run/x86" ]; then
-    cp -r /tmp/store-repo/run/x86/* extra-packages/
-    echo "✅ Run files copied:"
-    ls -lh extra-packages/*.run 2>/dev/null || echo "无 run 文件"
+if [ -z "$CUSTOM_PACKAGES" ]; then
+  echo "⚪️ 未选择 任何第三方软件包"
 else
-    echo "⚪️ 无 x86 专用 run 文件"
+  # ============= 同步第三方插件库==============
+  # 同步第三方软件仓库run/apk
+  echo "🔄 正在同步第三方软件仓库 Cloning run file repo..."
+  git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-apk-repo
+
+  # 拷贝 run/x86 下所有 run 文件和apk文件 到 extra-packages 目录
+  mkdir -p /home/build/immortalwrt/extra-packages
+  cp -r /tmp/store-apk-repo/run/x86/* /home/build/immortalwrt/extra-packages/
+
+  echo "✅ Run files copied to extra-packages:"
+  # 解压并拷贝apk到packages目录
+  sh shell/apk-prepare-packages.sh
+  ls -lah /home/build/immortalwrt/packages/
 fi
 
-# 解压并拷贝 apk/ipk
-sh prepare-packages.sh
-ls -lah packages/ | tail -5
+## 同步第三方仓库
+#echo "$(date '+%Y-%m-%d %H:%M:%S') - 同步第三方软件仓库..."
+#git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo
+
+#mkdir -p extra-packages
+#mkdir -p packages
+
+## 加载第三方插件配置（使用 25.12 配置）
+#source apk-custom-packages.sh
+#echo "第三方软件包: $CUSTOM_PACKAGES"
+
+## 复制 x86 的 .run 文件
+#if [ -d "/tmp/store-repo/run/x86" ]; then
+#    cp -r /tmp/store-repo/run/x86/* extra-packages/
+#    echo "✅ Run files copied:"
+#    ls -lh extra-packages/*.run 2>/dev/null || echo "无 run 文件"
+#else
+#    echo "⚪️ 无 x86 专用 run 文件"
+#fi
+
+## 解压并拷贝 apk/ipk
+#sh prepare-packages.sh
+#ls -lah packages/ | tail -5
 
 # 定义所需安装的包列表
 # [注意] libc / libgcc 由 base 系统提供，不单独列出
