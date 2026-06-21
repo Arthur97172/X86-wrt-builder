@@ -2,13 +2,12 @@
 # 25.12.x 第三方插件配置 (APK 格式) - x86-64 专用
 # 启用第三方插件时取消对应注释
 
-# 代理相关
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-clashoo-zh-cn"
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-nikki-zh-cn"
+# 代理相关 (clashoo全家桶)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-cn"
+# 代理相关 (nikki全家桶)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES nikki luci-app-nikki luci-i18n-nikki-zh-cn"
 # 主题
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config"
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-aurora"
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-aurora-config-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
 # VPN
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-tailscale"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-tailscale-zh-cn"
