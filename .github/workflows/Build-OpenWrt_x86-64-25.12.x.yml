@@ -75,6 +75,46 @@ jobs:
           cat files/customfeeds/25.customfeeds.conf >> imagebuilder/files/etc/apk/repositories
           echo "✅ 文件准备完成"
 
+      - name: 📦 同步第三方APK包并生成本地索引
+        run: |
+          echo "正在克隆第三方插件仓库..."
+          git clone --depth=1 https://github.com/Arthur97172/OpenWrt-App.git /tmp/store-repo || exit 1
+
+          # 创建本地APK目录
+          mkdir -p imagebuilder/thirdparty-pkgs
+
+          # 复制所有x86_64的apk文件到本地目录（包含子目录）
+          cp -r /tmp/store-repo/apk/x86_64/* imagebuilder/thirdparty-pkgs/ 2>/dev/null || true
+
+          # 收集所有apk文件到平铺目录
+          mkdir -p imagebuilder/thirdparty-pkgs/flat
+          find imagebuilder/thirdparty-pkgs -name '*.apk' -exec cp {} imagebuilder/thirdparty-pkgs/flat/ \;
+
+          APK_COUNT=$(find imagebuilder/thirdparty-pkgs/flat -name '*.apk' | wc -l)
+          echo "共复制 $APK_COUNT 个APK文件"
+
+          if [ "$APK_COUNT" -gt 0 ]; then
+            echo "正在生成本地APK索引..."
+            cd imagebuilder/thirdparty-pkgs/flat
+            # 生成APK索引（使用ImageBuilder的apk-tools）
+            apk index -o APKINDEX.tar.gz *.apk
+            # 为索引签名（ImageBuilder需要）
+            abuild-sign APKINDEX.tar.gz
+            echo "✅ APK索引生成完成"
+
+            # 添加本地源到repositories
+            echo "file:thirdparty-pkgs/flat" >> imagebuilder/repositories
+
+            # 同时复制到firmware的apk配置目录
+            mkdir -p imagebuilder/files/etc/apk
+            echo "file:thirdparty-pkgs/flat" >> imagebuilder/files/etc/apk/repositories
+          else
+            echo "⚠️ 没有找到APK文件，跳过本地源配置"
+          fi
+
+          cd /home/runner/work/OpenWrt-X86/OpenWrt-X86
+          echo "✅ 第三方APK同步完成"
+
       - name: ⚙️ 动态获取 Kmod 哈希并更新配置
         run: |
           BUILD_VER="${{ inputs.luci_version }}"
