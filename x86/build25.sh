@@ -118,9 +118,16 @@ if [ -n "$CUSTOM_PACKAGES" ]; then
     cd /home/runner/work/OpenWrt-X86/OpenWrt-X86/imagebuilder
 
     # 添加本地源到repositories（如果还没有）
+    # 注意：必须确保文件末尾有换行符，否则会拼接成一行导致URL错误
     if ! grep -q "file:thirdparty-pkgs/flat" repositories 2>/dev/null; then
+        # 确保文件末尾有换行符
+        [ -n "$(tail -c 1 repositories)" ] && echo "" >> repositories
         echo "file:thirdparty-pkgs/flat" >> repositories
         echo "✅ 已添加本地源到 repositories"
+        echo "=== repositories 文件内容 ==="
+        cat repositories
+    else
+        echo "⚪️ 本地源已存在，跳过"
     fi
 
 else
