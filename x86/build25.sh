@@ -21,24 +21,39 @@ if [ -n "$CUSTOM_PACKAGES" ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - 同步第三方软件仓库..."
     if [ -d "/tmp/store-repo" ]; then
         echo "仓库已存在，更新中..."
-        git -C /tmp/store-repo pull --ff-only
+        git -C /tmp/store-repo pull --ff-only || {
+            echo "❌ git pull 失败，删除旧仓库重新 clone..."
+            rm -rf /tmp/store-repo
+            git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo
+        }
     else
-        git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo
+        git clone --depth=1 https://github.com/wukongdaily/apk.git /tmp/store-repo || {
+            echo "❌ git clone 失败！"
+            exit 1
+        }
     fi
 
-    # 复制 x86 的 .run 文件
-    if [ -d "/tmp/store-repo/run/x86" ]; then
-        mkdir -p /home/runner/work/Openwrt-X86/Openwrt-X86/imagebuilder/extra-packages
-        cp -r /tmp/store-repo/run/x86/* /home/runner/work/Openwrt-X86/Openwrt-X86/imagebuilder/extra-packages/
-        echo "✅ Run files copied:"
-        ls -lh extra-packages/*.run 2>/dev/null || echo "无 run 文件"
-    else
-        echo "⚪️ 无 x86 专用 run 文件"
+    # 检查 clone 结果
+    if [ ! -d "/tmp/store-repo/run/x86" ]; then
+        echo "❌ 仓库结构异常，run/x86 目录不存在"
+        exit 1
     fi
 
-    # 解压并拷贝 apk/ipk
+    # 复制 x86 的所有内容（.run 文件和 .apk 目录）
+    cp -r /tmp/store-repo/run/x86/* extra-packages/
+    echo "✅ Run/apk 文件已复制到 extra-packages/"
+
+    # 解压并拷贝 apk/ipk 到 packages/
     sh prepare-packages.sh
-    ls -lah packages/ | tail -5
+    echo "打印 packages 目录（包含 APK 文件）："
+    ls -lah packages/ | grep -E '\.(apk|ipk)$' | tail -10
+
+    # 确认第三方 APK 文件是否存在
+    APK_COUNT=$(find packages/ -name '*.apk' | wc -l)
+    echo "共 $APK_COUNT 个 APK 文件在 packages/ 目录"
+    if [ "$APK_COUNT" -eq 0 ]; then
+        echo "⚠️ 警告：packages/ 目录中没有找到 APK 文件，make image 可能失败"
+    fi
 else
     echo "⚪️ 未选择第三方插件，跳过第三方仓库同步"
 fi
