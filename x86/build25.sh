@@ -40,7 +40,7 @@ if [ -n "$CUSTOM_PACKAGES" ]; then
     fi
 
     # 复制 x86 的所有内容（.run 文件和 .apk 目录）
-    cp -r /tmp/store-repo/apk/x86_64/* /home/runner/work/OpenWrt-X86/OpenWrt-X86/imagebuilder/extra-packages/
+    cp -r /tmp/store-repo/apk/x86_64/* extra-packages/
     echo "✅ Run/apk 文件已复制到 extra-packages/"
 
     # 解压并拷贝 apk/ipk 到 packages/
