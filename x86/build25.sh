@@ -67,21 +67,24 @@ if [ "$HAS_CUSTOM_PACKAGES" = "yes" ]; then
         exit 1
     }
 
-    # 递归查找所有 APK 文件并复制到 packages/
-    echo "复制 APK 到 packages/ 目录..."
-    find /tmp/store-repo/apk/x86_64 -name '*.apk' -exec cp {} packages/ \;
+    # 创建临时目录存放第三方 APK
+    mkdir -p thirdparty
 
-    APK_COUNT=$(find packages -name '*.apk' | wc -l)
-    echo "✅ packages/ 目录现有 $APK_COUNT 个APK文件"
+    # 复制第三方 APK 到临时目录（不覆盖 base 包）
+    echo "复制第三方 APK 到 thirdparty/ 目录..."
+    find /tmp/store-repo/apk/x86_64 -name '*.apk' -exec cp {} thirdparty/ \;
+
+    APK_COUNT=$(find thirdparty -name '*.apk' | wc -l)
+    echo "✅ 第三方目录现有 $APK_COUNT 个APK文件"
 
     if [ "$APK_COUNT" -eq 0 ]; then
         echo "❌ 没有找到APK文件"
         exit 1
     fi
 
-    # 生成 APK 索引
+    # 生成 APK 索引（允许不受信任的签名）
     echo "生成 APK 本地索引..."
-    cd packages
+    cd thirdparty
 
     # 查找 apk 工具
     APK_TOOL="../staging_dir/host/bin/apk"
@@ -91,25 +94,25 @@ if [ "$HAS_CUSTOM_PACKAGES" = "yes" ]; then
 
     if [ -n "$APK_TOOL" ]; then
         echo "使用 apk 工具: $APK_TOOL"
-        # 直接生成索引，不添加签名选项
-        $APK_TOOL index -o APKINDEX.tar.gz *.apk 2>&1
+        # 生成索引，允许不可信的签名
+        $APK_TOOL index --output APKINDEX.tar.gz --allow-untrusted *.apk 2>&1
         
         if [ -f APKINDEX.tar.gz ]; then
             echo "✅ APK 索引生成成功"
+            # 复制索引到 packages/ 目录
+            cp APKINDEX.tar.gz ../packages/
         else
-            echo "⚠️ APK 索引生成失败，文件不存在"
-            ls -la
+            echo "⚠️ APK 索引生成失败，尝试不带 --allow-untrusted..."
+            $APK_TOOL index --output APKINDEX.tar.gz *.apk 2>&1 || true
+            if [ -f APKINDEX.tar.gz ]; then
+                cp APKINDEX.tar.gz ../packages/
+            fi
         fi
     else
         echo "⚠️ 未找到 apk 工具"
     fi
 
     cd ..
-
-    # 也复制 APKINDEX.tar.gz 到 packages/（如果存在）
-    if [ -f packages/APKINDEX.tar.gz ]; then
-        echo "✅ APKINDEX.tar.gz 已存在"
-    fi
 
     echo "✅ APK 处理完成"
 else
