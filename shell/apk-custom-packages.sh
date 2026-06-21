@@ -2,19 +2,15 @@
 # 25.12.x 第三方插件配置 (APK 格式) - x86-64 专用
 # 启用第三方插件时取消对应注释
 
-# 广告拦截adghome
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-adguardhome"
+# 文件管理
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-quickfile-zh-cn"
 # 代理相关
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-homeproxy-zh-cn"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-ssr-plus"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-clashoo-zh-cn"
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-nikki-zh-cn"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-nekobox"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-aurora"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-aurora-config-zh-cn"
+# 主题
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-aurora"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-aurora-config-zh-cn"
 # VPN
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-tailscale"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-tailscale-zh-cn"
