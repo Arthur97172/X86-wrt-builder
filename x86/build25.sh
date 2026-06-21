@@ -7,62 +7,56 @@ INCLUDE_DOCKER=${INCLUDE_DOCKER:-"no"}
 echo "Rootfs Size: $ROOTFS_PARTSIZE MB"
 echo "Include Docker: $INCLUDE_DOCKER"
 
-# 检查第三方APK是否已由workflow准备好（使用本地生成的APK索引）
-if [ -f "thirdparty-pkgs/flat/APKINDEX.tar.gz" ]; then
-    echo "✅ 检测到workflow已准备好第三方APK索引，将使用本地源"
+# 检查第三方APK文件是否已准备好
+if [ -d "thirdparty-pkgs/flat" ]; then
     APK_COUNT=$(find thirdparty-pkgs/flat -name '*.apk' | wc -l)
-    echo "共 $APK_COUNT 个 APK 文件可用"
-else
-    echo "⚠️ 未检测到本地APK索引，将尝试旧方式同步（已废弃，不推荐）"
-    mkdir -p extra-packages
-    mkdir -p packages
+    echo "✅ 检测到第三方APK文件，共 $APK_COUNT 个"
 
-    # 加载第三方插件配置（使用 25.12 配置）
-    CUSTOM_PACKAGES=""
-    source apk-custom-packages.sh
+    # 如果没有APKINDEX.tar.gz，则生成它
+    if [ ! -f "thirdparty-pkgs/flat/APKINDEX.tar.gz" ]; then
+        echo "正在生成本地APK索引..."
 
-    # 只有当选择了第三方插件时才同步第三方仓库
-    if [ -n "$CUSTOM_PACKAGES" ]; then
-        echo "检测到已选择第三方插件: $CUSTOM_PACKAGES"
-        echo "$(date '+%Y-%m-%d %H:%M:%S') - 同步第三方软件仓库..."
-        if [ -d "/tmp/store-repo" ]; then
-            echo "仓库已存在，更新中..."
-            git -C /tmp/store-repo pull --ff-only || {
-                echo "❌ git pull 失败，删除旧仓库重新 clone..."
-                rm -rf /tmp/store-repo
-                git clone --depth=1 https://github.com/Arthur97172/OpenWrt-App.git /tmp/store-repo
-            }
+        # 查找apk工具
+        APK_TOOL=""
+        for path in "./staging_dir/host/bin/apk" "./usr/bin/apk" "./apk" "$(which apk)" "/usr/bin/apk"; do
+            if [ -x "$path" ]; then
+                APK_TOOL="$path"
+                break
+            fi
+        done
+
+        if [ -n "$APK_TOOL" ]; then
+            echo "使用apk工具: $APK_TOOL"
+
+            # 生成APK索引
+            cd thirdparty-pkgs/flat
+            $APK_TOOL index -o APKINDEX.tar.gz *.apk 2>/dev/null
+
+            # 签名索引
+            # 查找abuild-sign
+            ABUILD_SIGN=""
+            for path in "./staging_dir/host/bin/abuild-sign" "./usr/bin/abuild-sign" "./abuild-sign" "$(which abuild-sign)" "/usr/bin/abuild-sign"; do
+                if [ -x "$path" ]; then
+                    ABUILD_SIGN="$path"
+                    break
+                fi
+            done
+
+            if [ -n "$ABUILD_SIGN" ]; then
+                $ABUILD_SIGN APKINDEX.tar.gz 2>/dev/null
+                echo "✅ APK索引签名完成"
+            fi
+
+            cd /home/runner/work/OpenWrt-X86/OpenWrt-X86/imagebuilder
         else
-            git clone --depth=1 https://github.com/Arthur97172/OpenWrt-App.git /tmp/store-repo || {
-                echo "❌ git clone 失败！"
-                exit 1
-            }
-        fi
-
-        # 检查 clone 结果
-        if [ ! -d "/tmp/store-repo/apk/x86_64" ]; then
-            echo "❌ 仓库结构异常，apk/x86_64 目录不存在"
-            exit 1
-        fi
-
-        # 复制 x86 的所有内容（.run 文件和 .apk 目录）
-        cp -r /tmp/store-repo/apk/x86_64/* extra-packages/
-        echo "✅ Run/apk 文件已复制到 extra-packages/"
-
-        # 解压并拷贝 apk/ipk 到 packages/
-        sh prepare-packages.sh
-        echo "打印 packages 目录（包含 APK 文件）："
-        ls -lah packages/ | grep -E '\.(apk|ipk)$' | tail -10
-
-        # 确认第三方 APK 文件是否存在
-        APK_COUNT=$(find packages/ -name '*.apk' | wc -l)
-        echo "共 $APK_COUNT 个 APK 文件在 packages/ 目录"
-        if [ "$APK_COUNT" -eq 0 ]; then
-            echo "⚠️ 警告：packages/ 目录中没有找到 APK 文件，make image 可能失败"
+            echo "⚠️ 未找到apk工具，跳过索引生成"
+            echo "   APK索引将由make命令自动生成"
         fi
     else
-        echo "⚪️ 未选择第三方插件，跳过第三方仓库同步"
+        echo "✅ APKINDEX.tar.gz 已存在"
     fi
+else
+    echo "⚠️ 未检测到第三方APK文件"
 fi
 
 # 定义所需安装的包列表
