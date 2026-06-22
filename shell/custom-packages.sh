@@ -3,7 +3,7 @@
 # ============= 若启用 则打开注释 ============================
 
 # 代理相关
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall luci-i18n-passwall-zh-cn"
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall luci-i18n-passwall-zh-cn"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
 
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-clashoo luci-i18n-clashoo-zh-cn"
