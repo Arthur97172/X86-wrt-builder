@@ -7,10 +7,10 @@
 # 代理相关
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-homeproxy-zh-cn"
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-homeproxy-zh-cn"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-ssr-plus"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall2 luci-i18n-passwall2-zh-cn"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-nikki-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-nikki-zh-cn"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-nekobox"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-argon-config"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
