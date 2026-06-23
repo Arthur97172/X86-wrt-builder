@@ -12,8 +12,12 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
 # VPN
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-tailscale"
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-tailscale-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES tailscale luci-app-tailscale"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-tailscale-zh-cn"
+# Quickfile
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES quickfile luci-app-quickfile"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-quickfile-zh-cn"
+
 # 分区扩容 by sirpdboy
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-partexp"
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-i18n-partexp-zh-cn"
