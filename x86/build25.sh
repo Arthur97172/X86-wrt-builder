@@ -264,8 +264,13 @@ fi
 
 # ============================================
 # 步骤5: 执行 make image
+# (传 CONFIG_SIGNATURE_CHECK= 关闭 apk 签名校验。IB 25.12 默认开,
+# 用 --keys-dir 信任 local key, 但我们的 key 不在 official keyset
+# 里,apk 仍会判 UNTRUSTED 并整库丢弃 → 0 B/0 packages → "no such package"。
+# 把签名校验关掉, apk 接受我们 mkndx 的任意 adb(包括未签的)。
+# 我们的 apk 都来自受信任作者,安全风险可接受。)
 # ============================================
-make image PROFILE=generic PACKAGES="$PACKAGES" FILES="files" ROOTFS_PARTSIZE="$ROOTFS_PARTSIZE"
+make image CONFIG_SIGNATURE_CHECK= PROFILE=generic PACKAGES="$PACKAGES" FILES="files" ROOTFS_PARTSIZE="$ROOTFS_PARTSIZE"
 
 if [ $? -ne 0 ]; then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - Error: Build failed!"
