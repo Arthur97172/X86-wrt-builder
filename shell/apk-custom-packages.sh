@@ -8,6 +8,8 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES nikki luci-app-nikki luci-i18n-nikki-zh-cn"
 # 代理相关 (openclash)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
+# 代理相关 (daede)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
 # 主题
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
