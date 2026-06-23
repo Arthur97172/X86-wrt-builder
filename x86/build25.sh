@@ -120,46 +120,85 @@ if [ "$THIRD_PARTY_OK" = "1" ]; then
     echo "✅ 第三方 APK 已合并到 packages/ (池中现共 $PKG_IN_POOL 个文件)"
 
     APK_BIN="staging_dir/host/bin/apk"
+    APK_KEYS_DIR="keys"
+    APK_SIGN_KEY="$APK_KEYS_DIR/local-private-key.pem"
+    if [ ! -s "$APK_SIGN_KEY" ]; then
+        APK_SIGN_KEY="$APK_KEYS_DIR/build_key.apk.sec"
+    fi
+
+    # 在 IB 子目录内运行 ../staging_dir/host/bin/apk mkndx。
+    # 因为 (cd packages && ...) 改了 cwd,--keys-dir/--sign 相对于
+    # process cwd 解析,所以这里把它们展开为绝对路径。
+    run_mkndx() {
+        local args=("$@")
+        local cmd=(../"$APK_BIN" mkndx)
+        if [ -s "$APK_SIGN_KEY" ]; then
+            cmd+=(--keys-dir "$(pwd)/$APK_KEYS_DIR")
+            cmd+=(--sign "$(pwd)/$APK_SIGN_KEY")
+        fi
+        cmd+=(--allow-untrusted --output packages.adb "${args[@]}")
+        "${cmd[@]}"
+    }
+
     if [ -x "$APK_BIN" ]; then
-        # 显式构造 apk 文件参数,避免 shell glob *.apk 在某种环境下不展开时 mkndx 收到零个参数,
-        # 它会让你意外得到一个 signed-but-empty 的 packages.adb(从而触发 installing packages
-        # 阶段 "package mentioned in index not found" 这种误导性错误)。
-        APK_ARGS=""
+        # 关键: IB 25.12.x 默认 CONFIG_SIGNATURE_CHECK=y(.config 第 234 行),
+        # apk 调用**没有** --allow-untrusted。所有 packages.adb 必须用
+        # local-private-key.pem 签名,否则 apk 读到时:
+        #   "WARNING: ./packages/packages.adb: UNTRUSTED signature"
+        # → 整库丢弃("OK: 0 B in 0 packages") → "package mentioned in index not found"
+        # 流程:
+        #   1) 显式列 apk 给 mkndx(避免 *.apk glob 在某环境不展开 → 0 字节假签 adb)
+        #   2) 整体失败逐个排错,坏 apk 移到 .bad 后用剩余的重建
+        #   3) touch packages.adb 把 mtime 设到所有 *.apk 之后,IB 检测认为 adb
+        #      是最新的,不会执行默认的 mkndx(默认调用无声覆盖,entails 0 字节)
+        APK_FILES=()
         for f in packages/*.apk; do
             [ -e "$f" ] || continue
-            APK_ARGS="$APK_ARGS $(basename "$f")"
+            APK_FILES+=("$(basename "$f")")
         done
-        PKG_COUNT=$(echo $APK_ARGS | wc -w)
-        echo "🔧 显式重建 packages.adb 索引(待索引 apk 数量: $PKG_COUNT)..."
+        PKG_COUNT="${#APK_FILES[@]}"
+        echo "🔧 显式重建 SIGNED packages.adb 索引(待索引 apk 数量: $PKG_COUNT)..."
         if [ "$PKG_COUNT" -eq 0 ]; then
             echo "⚠️ packages/ 是空的,没有 apk 可索引,跳过"
-        elif (cd packages && ../"$APK_BIN" mkndx --allow-untrusted --output packages.adb $APK_ARGS); then
-            echo "✅ packages.adb 已就绪 ($PKG_COUNT 个 apk)"
+        elif (cd packages && run_mkndx "${APK_FILES[@]}"); then
+            echo "✅ SIGNED packages.adb 已就绪 ($PKG_COUNT 个 apk)"
         else
             echo "⚠️ mkndx 整体失败,逐个诊断损坏的 apk ..."
-            BAD=""
-            for f in packages/*.apk; do
-                [ -e "$f" ] || continue
-                if ! (cd packages && ../"$APK_BIN" mkndx --allow-untrusted --output packages.adb "$(basename "$f")"); then
-                    echo "  ✗ 损坏: $f"
-                    BAD="$BAD $f"
+            BAD=()
+            for entry in "${APK_FILES[@]}"; do
+                if ! (cd packages && run_mkndx "$entry"); then
+                    echo "  ✗ 损坏: packages/$entry"
+                    BAD+=("$entry")
                 fi
             done
-            if [ -n "$BAD" ]; then
-                echo "🚮 暂时移出损坏的 apk: $BAD"
+            if [ "${#BAD[@]}" -gt 0 ]; then
+                echo "🚮 暂时移出损坏的 apk ..."
                 mkdir -p packages/.bad
-                mv $BAD packages/.bad/
-                APK_ARGS=""
+                for entry in "${BAD[@]}"; do
+                    mv "packages/$entry" "packages/.bad/$entry"
+                done
+                APK_FILES=()
                 for f in packages/*.apk; do
                     [ -e "$f" ] || continue
-                    APK_ARGS="$APK_ARGS $(basename "$f")"
+                    APK_FILES+=("$(basename "$f")")
                 done
-                if (cd packages && ../"$APK_BIN" mkndx --allow-untrusted --output packages.adb $APK_ARGS); then
-                    echo "✅ 已用剩余的健康 apk 重建索引(损坏 apk 的功能将不可用)"
+                if [ "${#APK_FILES[@]}" -eq 0 ]; then
+                    echo "⚠️ 没有健康的 apk 留下来,跳过重建"
+                elif (cd packages && run_mkndx "${APK_FILES[@]}"); then
+                    echo "✅ 已用剩余的健康 apk 重建 SIGNED 索引(损坏 apk 的功能将不可用)"
                 else
-                    echo "⚠️ 即便移出损坏的 apk 后仍无法生成索引,继续依赖 IB 的自动重建"
+                    echo "⚠️ 即便移出损坏 apk 后仍无法生成索引,继续依赖 IB 自动重建"
                 fi
             fi
+        fi
+
+        # 把 packages.adb 的 mtime 设到所有 *.apk 之后,避免 IB 内部因 mkndx 旧
+        # 而重建。IB 逻辑:"[ find $(PACKAGE_DIR) -cnewer packages.adb ]" → 重建;
+        # 我们的 adb mtime 更新后,find 不会返回新的文件,IB 跳过重建。
+        if [ -f packages/packages.adb ]; then
+            touch -d "@$(($(date +%s) + 60))" packages/packages.adb 2>/dev/null || \
+                touch packages/packages.adb
+            echo "🔒 packages.adb mtime 已更新,IB 不会重建"
         fi
     else
         echo "⚠️ 找不到 $APK_BIN,继续依赖 IB 自动重建(不推荐)"
