@@ -3,7 +3,7 @@
 # 启用第三方插件时取消对应注释
 
 # argon主题 (argon)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-argon-config luci-theme-argon luci-i18n-argon-config-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
 
 # aurora主题 (aurora)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
@@ -41,8 +41,11 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-partexp luci-i18n-partexp-zh-cn"
 # 关机 (poweroffdevice)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-poweroffdevice luci-i18n-poweroffdevice-zh-cn"
 
-# 文件管理器 (quickfile)
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES quickfile luci-app-quickfile luci-i18n-quickfile-zh-cn"
+# 流媒体转发 (rtp2httpd)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES rtp2httpd luci-app-rtp2httpd luci-i18n-rtp2httpd-zh-cn"
 
 # VPN代理 (tailscale)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES tailscale luci-app-tailscale luci-i18n-tailscale-zh-cn"
+
+# 定时任务 (taskplan)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-taskplan luci-i18n-taskplan-zh-cn"
