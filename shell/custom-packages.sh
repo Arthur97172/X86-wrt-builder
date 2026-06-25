@@ -8,17 +8,23 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
 # aurora主题 (aurora)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
 
-# 网络流量监控 (bandix)
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix luci-app-bandix luci-i18n-bandix-zh-cn"
-
 # 网络流量监控 (bandix-plus)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix-plus luci-app-bandix-plus luci-i18n-bandix-plus-zh-cn"
+
+# 网络流量监控 (bandix)
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix luci-app-bandix luci-i18n-bandix-zh-cn"
 
 # clashoo代理面板 (clashoo)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-cn"
 
 # daede代理面板 (daede)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
+
+# easytier异地组网 (easytier)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES easytier easytier-noweb luci-app-easytier luci-i18n-easytier-zh-cn"
+
+# lucky内网穿透 (lucky)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES lucky luci-app-lucky luci-i18n-lucky-zh-cn"
 
 # DNS转发器 (MosDNS)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES mosdns luci-app-mosdns luci-i18n-mosdns-zh-cn"
