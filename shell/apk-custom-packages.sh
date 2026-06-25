@@ -8,11 +8,11 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
 # aurora主题 (aurora)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-aurora-config luci-theme-aurora luci-i18n-aurora-config-zh-cn"
 
-# 网络流量监控 (bandix)
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix luci-app-bandix luci-i18n-bandix-zh-cn"
-
-# 网络流量监控 (bandix-plus)
+# bandix-plus网络流量监控 (bandix-plus)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix-plus luci-app-bandix-plus luci-i18n-bandix-plus-zh-cn"
+
+# bandix网络流量监控 (bandix)
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix luci-app-bandix luci-i18n-bandix-zh-cn"
 
 # clashoo代理面板 (clashoo)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-cn"
@@ -20,10 +20,16 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-
 # daede代理面板 (daede)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
 
-# DNS转发器 (MosDNS)
+# easytier异地组网 (easytier)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES easytier easytier-noweb luci-app-easytier luci-i18n-easytier-zh-cn"
+
+# lucky内网穿透 (lucky)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES lucky luci-app-lucky luci-i18n-lucky-zh-cn"
+
+# MosDNS转发器 (MosDNS)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES mosdns luci-app-mosdns luci-i18n-mosdns-zh-cn"
 
-# 网络设置向导 (netwizard)
+# netwizard网络设置向导 (netwizard)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-netwizard luci-i18n-netwizard-zh-cn"
 
 # nikki代理面板 (nikki)
@@ -32,20 +38,20 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES nikki luci-app-nikki luci-i18n-nikki-zh-cn"
 # openclash代理面板 (openclash)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-openclash"
 
-# 分区扩容 (partexp)
+# partexp分区扩容 (partexp)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-partexp luci-i18n-partexp-zh-cn"
 
 # passwall代理面板 (passwall)
-#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall luci-i18n-passwall-zh-cn"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-passwall luci-i18n-passwall-zh-cn"
 
-# 关机 (poweroffdevice)
+# poweroffdevice关机 (poweroffdevice)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-poweroffdevice luci-i18n-poweroffdevice-zh-cn"
 
-# 流媒体转发 (rtp2httpd)
+# rtp2httpd流媒体转发 (rtp2httpd)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES rtp2httpd luci-app-rtp2httpd luci-i18n-rtp2httpd-zh-cn"
 
-# VPN代理 (tailscale)
+# tailscaleVPN代理 (tailscale)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES tailscale luci-app-tailscale luci-i18n-tailscale-zh-cn"
 
-# 定时任务 (taskplan)
+# taskplan定时任务 (taskplan)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-taskplan luci-i18n-taskplan-zh-cn"
