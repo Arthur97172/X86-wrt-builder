@@ -126,7 +126,7 @@ jobs:
           echo "=== repositories 内容 ==="
           cat imagebuilder/repositories
           
-      - name: 🧱 构建 OpenWrt 25.12.x 固件
+      - name: 🧱 构建 Wrt 25.12.x 固件
         working-directory: ./imagebuilder
         env:
           INCLUDE_DOCKER: ${{ inputs.include_docker }}
