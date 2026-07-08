@@ -1,7 +1,7 @@
 <div align="center">
 <p align="center">
-  <img src="files/screenshot/001.png" width="100%" />
-  <img src="files/screenshot/banner.svg" width="100%" />
+  <img src="files/screenshot/001.png" style="max-width: 100%; height: auto;" />
+  <img src="./files/screenshot/banner.svg" style="max-width: 100%; height: auto;" />
 </p>
 
   <h1>基于Immortalwrt and OpenWrt Imagebuilder X86-64</h1>
