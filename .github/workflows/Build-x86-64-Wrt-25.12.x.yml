@@ -112,7 +112,7 @@ jobs:
             FULL_KMOD_URL="${BASE_URL}${KMOD_DIR}/packages.adb"
             echo "✅ 成功匹配 kmods 路径: $FULL_KMOD_URL"
             # 替换 repositories 文件中的占位符
-            sed -i "s|VERSION_PLACEHOLDER|${BUILD_VER}|g" imagebuilder/repositories
+            sed -i "s|VERSION_PLACEHOLDER|${{ env.FINAL_LUCI_VER }}|g" imagebuilder/repositories
             sed -i "s|KMOD_PLACEHOLDER|${FULL_KMOD_URL}|g" imagebuilder/repositories
           else
             echo "❌ 无法获取 Kmod 哈希"
@@ -120,7 +120,7 @@ jobs:
           fi
           echo "=== repositories 内容 ==="
           cat imagebuilder/repositories
-
+          
       - name: 🧱 构建 OpenWrt 25.12.x 固件
         working-directory: ./imagebuilder
         env:
