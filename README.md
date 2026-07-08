@@ -28,9 +28,16 @@
 
 | 插件                     | 状态 | 插件                     | 状态  | 插件                    | 状态   |
 |:------------------------:|:----:|:------------------------:|:-----:|:------------------------:|:------:|
-| N/A             |  ✅   | N/A                    |  ⏳     | N/A            | ⭕       |
+| Amlogic          | ✅   | Argon        | ✅    | Bandix-plus    |  ✅     |
+| Clashoo              |  ✅   | Daede                    |  ✅     | Lucky                | ✅      |
+| MosDNS              |  ✅   | Netwizard                   |  ✅     | Nikki            | ✅       |
+| Openclash              |  ✅   | Partexp                    |  ✅     | Poweroffdevice           | ✅       |
+| Rtp2httpd              |  ✅   | Tailscale                    |  ✅      | Taskplan           | ✅        |
+| Passwall              |  ✅   | N/A                    |  ⏳     | N/A            | ⭕       |
 
 ✅ 支持 - ⏳ 计划中 - ⭕ 不支持
+
+用户可根据自己需要对/shell/custom-packages.sh文件进行调节
 
 </div>
 
