@@ -36,7 +36,9 @@ on:
           - '256'
           - '512'
           - '1024'
-          - '2048' 
+          - '2048'
+          - '3072'
+          - '4096'
       include_docker:
         description: "是否集成 Docker 插件"
         required: true
