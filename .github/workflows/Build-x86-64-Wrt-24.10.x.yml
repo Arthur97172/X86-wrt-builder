@@ -115,7 +115,7 @@ jobs:
 
     - name: ⚙️ 动态获取 Kmod 哈希并更新配置
       run: |
-        BASE_URL="https://downloads.${{ env.FINAL_WRT }}.org/releases/${{ env.FINAL_LUCI_VER }}/targets/targets/x86/64/kmods/"
+        BASE_URL="https://downloads.${{ env.FINAL_WRT }}.org/releases/${{ env.FINAL_LUCI_VER }}/targets/x86/64/kmods/"
         
         echo "正在从 $BASE_URL 获取最新的内核哈希..."
         # 抓取包含哈希值的文件夹名称 (例如 6.6.110-1-xxx...)
