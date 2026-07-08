@@ -90,11 +90,12 @@ jobs:
           cp x86/build25.sh imagebuilder/
           if [ "${{ env.FINAL_WRT }}" = "openwrt" ]; then
             cp x86/openwrt-repositories imagebuilder/repositories
-            cp shell/apk-openwrt-custom-packages.sh imagebuilder/
+            cat shell/apk-openwrt-custom-packages.sh >> imagebuilder/apk-custom-packages.sh
           else
             cp x86/immortalwrt-repositories imagebuilder/repositories
-            cp shell/apk-immortalwrt-custom-packages.sh imagebuilder/
+            cat shell/apk-immortalwrt-custom-packages.sh >> imagebuilder/apk-custom-packages.sh
           fi          
+          chmod +x imagebuilder/apk-custom-packages.sh
           cp shell/prepare-packages.sh imagebuilder/
           mkdir -p imagebuilder/files/etc/uci-defaults imagebuilder/files/etc/apk/repositories.d
           cp files/uci-defaults/99-custom.sh imagebuilder/files/etc/uci-defaults/
