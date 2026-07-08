@@ -241,3 +241,15 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - 构建成功."
+
+# ================== customfeeds.conf 验证 ==================
+echo ""
+echo "================ customfeeds.conf 在固件中的内容 ================"
+if [ -f files/etc/opkg/customfeeds.conf ]; then
+    cat files/etc/opkg/customfeeds.conf
+    echo "→ 已成功放入固件！刷机后 opkg update 就能使用自定义源"
+else
+    echo "⚠️ 警告：customfeeds.conf 未找到！请检查 volume 挂载路径"
+fi
+echo "================================================================="
+echo ""

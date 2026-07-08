@@ -1,0 +1,9 @@
+## Remote package repositories (APK format - one URL per line)
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/targets/x86/64/packages/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/base/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/luci/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/packages/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/routing/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/telephony/packages.adb
+https://downloads.openwrt.org/releases/VERSION_PLACEHOLDER/packages/x86_64/video/packages.adb
+KMOD_PLACEHOLDER
