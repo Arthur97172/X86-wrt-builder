@@ -2,6 +2,9 @@
 # 24.10.x 第三方插件配置 (IPK 格式) - x86-64 专用
 # 启用第三方插件时取消对应注释
 
+# adguardhome广告拦截 (adguardhome)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-adguardhome"
+
 # argon主题 (argon)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
 
