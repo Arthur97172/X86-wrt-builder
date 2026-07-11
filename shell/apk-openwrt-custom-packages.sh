@@ -53,6 +53,9 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-poweroffdevice luci-i18n-poweroffdevi
 # rtp2httpd流媒体转发 (rtp2httpd)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES rtp2httpd luci-app-rtp2httpd luci-i18n-rtp2httpd-zh-cn"
 
+# run插件安装工具 (run)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-run"
+
 # tailscaleVPN代理 (tailscale)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES tailscale luci-app-tailscale luci-i18n-tailscale-zh-cn"
 
