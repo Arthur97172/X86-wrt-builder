@@ -83,11 +83,13 @@ jobs:
     - name: ⚙️ 设置IP、网关和版本号
       run: |
         CONFIG_PATH="./files/uci-defaults/99-custom.sh"
+        echo "当前网络配置路径: $CONFIG_PATH"
         sed -i "s/版本号/${{ env.FINAL_LUCI_VER }}/g" "$CONFIG_PATH"
         sed -i "s/__IPADDR__/${{ inputs.ipaddr }}/g" "$CONFIG_PATH"
         sed -i "s/WRTVERSIONINFO/${{ env.WRT_NAME }}/g" "$CONFIG_PATH"
         sed -i "s/VERXXXX/${{ env.FINAL_LUCI_VER }}/g" "$CONFIG_PATH"
-        echo "✅ 配置修改完成"
+        echo "✅ 配置修改完成，输出预览："
+        cat "$CONFIG_PATH"
 
     - name: ⏬ 下载 ImageBuilder
       run: |
