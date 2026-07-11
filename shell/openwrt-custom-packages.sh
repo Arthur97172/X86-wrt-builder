@@ -3,7 +3,7 @@
 # 启用第三方插件时取消对应注释
 
 # adguardhome广告拦截 (adguardhome)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-adguardhome"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES adguardhome luci-app-adguardhome luci-i18n-adguardhome-zh-cn"
 
 # argon主题 (argon)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
