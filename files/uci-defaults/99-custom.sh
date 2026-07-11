@@ -1,5 +1,6 @@
 #!/bin/sh
-# Openwrt 首次运行时
+# 仅首次运行Wrt时，会执行以下脚本。重启后消失
+
 LOGFILE="/tmp/uci-defaults-log.txt"
 echo "Starting 99-custom.sh at $(date)" >>$LOGFILE
 # 设置默认防火墙规则，方便虚拟机首次访问 WebUI
