@@ -6,7 +6,7 @@ echo "Starting 99-custom.sh at $(date)" >>$LOGFILE
 uci set firewall.@zone[1].input='ACCEPT'
 
 # 设置主机名
-uci set system.@system[0].hostname='OpenWrt'
+uci set system.@system[0].hostname='${{ env.FINAL_WRT }}'
 uci set system.@system[0].timezone='CST-8'
 uci set system.@system[0].zonename='Asia/Shanghai'
 
@@ -83,7 +83,7 @@ uci commit
 
 # 设置作者描述信息
 FILE_PATH="/etc/openwrt_release"
-NEW_DESCRIPTION="OpenWrt VERXXXX"
+NEW_DESCRIPTION="${{ env.FINAL_WRT }} VERXXXX"
 sed -i "s/DISTRIB_DESCRIPTION='[^']*'/DISTRIB_DESCRIPTION='$NEW_DESCRIPTION'/" "$FILE_PATH"
 
 exit 0
