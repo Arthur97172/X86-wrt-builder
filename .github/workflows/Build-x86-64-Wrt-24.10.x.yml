@@ -154,6 +154,11 @@ jobs:
       run: |
         bash ./build24.sh
 
+    - name: 📅 获取当前日期
+      id: date
+      run: |
+        echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+
     - name: 📜 生成发布说明
       run: |
         cat > ${{ github.workspace }}/router-info.md <<EOF
@@ -168,7 +173,7 @@ jobs:
     - name: 🚀 上传到 Release
       uses: softprops/action-gh-release@v2.2.1
       with:
-        tag_name: ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-x86-64-RELEASE-Docker-${{ env.DOCKER }}
+        tag_name: ${{ steps.date.outputs.date }}-${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-x86-64-RELEASE-Docker-${{ env.DOCKER }}
         body_path: ${{ github.workspace }}/router-info.md
         files: |
           imagebuilder/bin/targets/x86/64/*squashfs-combined-efi.img.gz
