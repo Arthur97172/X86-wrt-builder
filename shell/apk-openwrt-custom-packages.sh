@@ -6,7 +6,7 @@
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES adguardhome luci-app-adguardhome luci-i18n-adguardhome-zh-cn"
 
 # argon主题 (argon)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon"
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-argon luci-app-argon-config luci-i18n-argon-config-zh-cn"
 
 # material (material)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-theme-material"
