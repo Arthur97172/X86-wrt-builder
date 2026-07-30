@@ -142,6 +142,11 @@ jobs:
         run: |
           bash ./build25.sh
 
+      - name: 📅 获取当前日期
+        id: date
+        run: |
+          echo "date=$(date +'%Y%m%d')" >> $GITHUB_OUTPUT
+
       - name: 📜 生成发布说明
         run: |
           cat > ${{ github.workspace }}/router-info.md <<EOF
@@ -156,7 +161,7 @@ jobs:
       - name: 🚀 上传到 Release
         uses: softprops/action-gh-release@v2.2.1
         with:
-          tag_name: ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-x86-64-RELEASE-Docker-${{ inputs.include_docker }}
+          tag_name: ${{ steps.date.outputs.date }}-${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-x86-64-RELEASE-Docker-${{ inputs.include_docker }}
           body_path: ${{ github.workspace }}/router-info.md
           overwrite: true
           files: |
