@@ -218,10 +218,10 @@ if echo "$PACKAGES" | grep -q "luci-app-openclash"; then
     META_URL="https://raw.githubusercontent.com/vernesong/OpenClash/core/master/meta/clash-linux-amd64.tar.gz"
     wget -qO- $META_URL | tar xOvz > files/etc/openclash/core/clash_meta
     chmod +x files/etc/openclash/core/clash_meta
-    # Download GeoIP and GeoSite
+    # 下载 GeoIP and GeoSite 数据库
     wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -O files/etc/openclash/GeoIP.dat
     wget -q https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat -O files/etc/openclash/GeoSite.dat
-    echo "openclash预装GeoData 数据库完成！"
+    echo "✅ openclash预装GeoData 数据库完成！"
 else
     echo "⚪️ 未选择 luci-app-openclash"
 fi
@@ -230,7 +230,7 @@ fi
 if echo "$PACKAGES" | grep -q "luci-app-nikki"; then
     # 创建目录
     mkdir -p files/etc/nikki/run/
-    # Download GeoIP and GeoSite
+    # 下载 GeoIP and GeoSite 数据库
     wget -q https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geoip.dat -O files/etc/nikki/run/GeoIP.dat
     wget -q https://github.com/MetaCubeX/meta-rules-dat/releases/latest/download/geosite.dat -O files/etc/nikki/run/GeoSite.dat
     chmod 755 files/etc/nikki/run/*
