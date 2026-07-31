@@ -24,7 +24,7 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
 
 # lucky内网穿透 (lucky)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES lucky luci-app-lucky luci-i18n-lucky-zh-cn"
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES lucky luci-app-lucky luci-i18n-lucky-zh-cn"
 
 # DNS转发器 (MosDNS)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES mosdns luci-app-mosdns luci-i18n-mosdns-zh-cn"
