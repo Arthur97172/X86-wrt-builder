@@ -310,7 +310,8 @@ else
     echo "⚪️ 未选择 luci-app-nikki"
 fi
 
-echo "$(date '+%Y-%m-%d %H:%M:%S') - 编译包列表:"
+# 构建镜像
+echo "$(date '+%Y-%m-%d %H:%M:%S') - 开始构建......打印所有包名"
 echo "$PACKAGES"
 
 # ============================================
