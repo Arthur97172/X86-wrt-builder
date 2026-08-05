@@ -62,13 +62,13 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     # 关键：添加写入权限，解决 403 报错
     permissions:
       contents: write
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: ⚙️ 设置可执行权限
       run: | 
