@@ -26,6 +26,9 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix-plus luci-app-bandix-plus luci-i18n-ban
 # clashoo代理面板 (clashoo)
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-cn"
 
+# cpu状态
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-cpu-status"
+
 # daede代理面板 (daede)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
 
@@ -57,7 +60,7 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-poweroffdevice luci-i18n-poweroffdevi
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES rtp2httpd luci-app-rtp2httpd luci-i18n-rtp2httpd-zh-cn"
 
 # run插件安装工具 (run)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-run"
+#CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-run"
 
 # tailscaleVPN代理 (tailscale)
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES tailscale luci-app-tailscale luci-i18n-tailscale-zh-cn"
