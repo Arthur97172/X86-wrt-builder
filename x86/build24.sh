@@ -145,6 +145,8 @@ PACKAGES="$PACKAGES ethtool"
 PACKAGES="$PACKAGES kmod-nft-tproxy"
 PACKAGES="$PACKAGES kmod-nft-socket"
 PACKAGES="$PACKAGES bash"
+PACKAGES="$PACKAGES kmod-tcp-bbr"
+PACKAGES="$PACKAGES kmod-nft-offload"
 
 # 博通无线网卡核心驱动
 PACKAGES="$PACKAGES kmod-brcmfmac"
