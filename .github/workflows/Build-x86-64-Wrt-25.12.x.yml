@@ -98,7 +98,7 @@ jobs:
           mv -- ${{ env.FINAL_WRT }}-imagebuilder-* imagebuilder
           echo "✅ ImageBuilder 下载完成"
 
-      - name: 🔄 复制必备文件到ImageBuilder
+      - name: 🔄 复制${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-ImageBuilder
         run: |
           cp x86/build25.sh imagebuilder/
           if [ "${{ env.FINAL_WRT }}" = "openwrt" ]; then
@@ -134,7 +134,7 @@ jobs:
           echo "=== repositories 内容 ==="
           cat imagebuilder/repositories
           
-      - name: 🧱 构建 Wrt 25.12.x 固件
+      - name: 🧱 构建 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }} 固件
         working-directory: ./imagebuilder
         env:
           INCLUDE_DOCKER: ${{ inputs.include_docker }}
