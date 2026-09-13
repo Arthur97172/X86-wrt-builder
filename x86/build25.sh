@@ -24,7 +24,8 @@ fi
 PACKAGES=""
 
 # [基础系统]
-PACKAGES="$PACKAGES base-files block-mount ca-bundle ca-certificates dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup i915-firmware-dmc logd luci luci-compat luci-lib-base mkf2fs mtd netifd nftables odhcp6c -odhcpd odhcpd-ipv6only luci-proto-ppp luci-proto-ipv6 partx-utils ppp ppp-mod-pppoe procd-ujail ubus uci uclient-fetch urandom-seed urngd -wpad-basic-mbedtls wpad-openssl libustream-openssl"
+PACKAGES="$PACKAGES base-files block-mount ca-bundle ca-certificates dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup i915-firmware-dmc logd luci luci-compat luci-lib-base mkf2fs mtd netifd nftables odhcp6c -odhcpd odhcpd-ipv6only luci-proto-ppp luci-proto-ipv6 partx-utils ppp ppp-mod-pppoe procd-ujail ubus uci uclient-fetch urandom-seed urngd -wpad-basic-mbedtls -wpad-mbedtls -wpad-openssl wpad-mesh-openssl libustream-openssl"
+PACKAGES="$PACKAGES -libustream-mbedtls -libustream-wolfssl"
 PACKAGES="$PACKAGES kmod-tcp-bbr"
 
 # [Intel 网卡驱动]
