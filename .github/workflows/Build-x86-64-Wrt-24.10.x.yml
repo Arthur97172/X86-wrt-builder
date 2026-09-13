@@ -93,7 +93,7 @@ jobs:
         echo "✅ 配置修改完成，输出预览："
         cat "$CONFIG_PATH"
 
-    - name: ⏬ 下载 ImageBuilder
+    - name: ⏬ 下载 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }}-ImageBuilder
       run: |
         URL="https://downloads.${{ env.FINAL_WRT }}.org/releases/${{ env.FINAL_LUCI_VER }}/targets/x86/64/${{ env.FINAL_WRT }}-imagebuilder-${{ env.FINAL_LUCI_VER }}-x86-64.Linux-x86_64.tar.zst"
         curl -Lf -o imagebuilder.tar.zst "$URL"
@@ -148,7 +148,7 @@ jobs:
         echo "--- 检查更新后的 repositories.conf ---"
         cat imagebuilder/repositories.conf | grep "https"
 
-    - name: 🧱 构建 WRT 固件
+    - name: 🧱 构建 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }} 固件
       working-directory: ./imagebuilder
       env:
         ROOTFS_PARTSIZE: ${{ env.ROOTFS_PARTSIZE }}
