@@ -126,6 +126,7 @@ PACKAGES="$PACKAGES kmod-drm-i915"
 PACKAGES="$PACKAGES nano"
 PACKAGES="$PACKAGES -libustream-mbedtls"
 PACKAGES="$PACKAGES -libustream-wolfssl"
+PACKAGES="$PACKAGES -wpad-mbedtls"
 
 #Arthur添加
 PACKAGES="$PACKAGES alsa-utils"
