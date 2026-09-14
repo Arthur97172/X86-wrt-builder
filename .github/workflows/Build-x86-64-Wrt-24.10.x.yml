@@ -116,6 +116,7 @@ jobs:
         cp shell/prepare-packages.sh imagebuilder/
         mkdir -p imagebuilder/files/etc/uci-defaults
         cp files/uci-defaults/99-custom.sh imagebuilder/files/etc/uci-defaults/
+        cp files/etc/banner imagebuilder/files/etc/
         mkdir -p imagebuilder/files/etc/opkg
         cp -f files/customfeeds/24.customfeeds.conf imagebuilder/files/etc/opkg/customfeeds.conf 2>/dev/null || true
         # 验证信息
