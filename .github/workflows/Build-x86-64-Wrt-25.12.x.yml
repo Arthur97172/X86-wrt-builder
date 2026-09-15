@@ -79,16 +79,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libncurses5-dev libncursesw5-dev zstd curl unzip tree qemu-utils genisoimage
 
-      - name: ⚙️ 设置IP、版本号
+      - name: ⚙️ 设置IP、网关和版本号
         run: |
           CONFIG_PATH="./files/uci-defaults/99-custom.sh"
+          BANNER_PATH="./files/etc/banner"
           echo "当前网络配置路径: $CONFIG_PATH"
-          sed -i "s/版本号/${{ env.FINAL_LUCI_VER }}/g" "$CONFIG_PATH"
+          # 1. 替换 IP
           sed -i "s/__IPADDR__/${{ inputs.ipaddr }}/g" "$CONFIG_PATH"
-          sed -i "s/WRTVERSIONINFO/${{ env.WRT_NAME }}/g" "$CONFIG_PATH"
+          # 2. 替换 系统名称
           sed -i "s/VERXXXX/${{ env.FINAL_LUCI_VER }}/g" "$CONFIG_PATH"
+          # 3. 替换 版本号
+          sed -i "s/WRTVERSIONINFO/${{ env.WRT_NAME }}/g" "$CONFIG_PATH"
           echo "✅ 配置修改完成，输出预览："
           cat "$CONFIG_PATH"
+          # 4. 替换 banner 信息（只有文件存在时才执行替换与预览））
+          if [ -f "$BANNER_PATH" ]; then
+            echo "当前banner配置路径: $BANNER_PATH"
+            sed -i "s/VERXXXX/${{ env.FINAL_LUCI_VER }}/g" "$BANNER_PATH"
+            sed -i "s/WRTVERSIONINFO/${{ env.WRT_NAME }}/g" "$BANNER_PATH"
+            echo "✅ banner配置修改完成，输出预览："
+            cat "$BANNER_PATH"
+          else
+            echo "⚠️ 未找到 banner 文件，跳过替换。"
+          fi
 
       - name: ⏬ 下载 ${{ env.FINAL_WRT }} ImageBuilder 25.12.x
         run: |
