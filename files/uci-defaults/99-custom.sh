@@ -17,19 +17,16 @@ uci set luci.main.lang='zh_cn'
 uci commit system
 uci commit luci
 
-# 计算网卡数量
-count=0
+# 计算网卡物理接口数量
 ifnames=""
 for iface in /sys/class/net/*; do
     iface_name=$(basename "$iface")
-    # 检查是否为物理网卡（排除回环设备和无线设备）
     if [ -e "$iface/device" ] && echo "$iface_name" | grep -Eq '^eth|^en'; then
-        count=$((count + 1))
         ifnames="$ifnames $iface_name"
     fi
 done
-# 删除多余空格
 ifnames=$(echo "$ifnames" | awk '{$1=$1};1')
+count=$(echo "$ifnames" | wc -w)
 
 # 网络设置
 if [ "$count" -eq 1 ]; then
