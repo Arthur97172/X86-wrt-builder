@@ -17,9 +17,6 @@ uci set luci.main.lang='zh_cn'
 uci commit system
 uci commit luci
 
-# 设置所有网口可访问网页终端
-uci delete ttyd.@ttyd[0].interface
-
 # 计算网卡数量
 count=0
 ifnames=""
@@ -78,9 +75,16 @@ elif [ "$count" -gt 1 ]; then
     uci set network.lan.ipaddr='__IPADDR__'
     uci set network.lan.netmask='255.255.255.0'
 fi
+
 # 设置所有网口可连接 SSH
+uci delete ttyd.@ttyd[0].interface
 uci set dropbear.@dropbear[0].Interface=''
+uci commit network
 uci commit
+
+# 清理并还原 Banner
+cp /etc/banner1/banner /etc/
+rm -r /etc/banner1
 
 # 设置作者描述信息
 FILE_PATH="/etc/openwrt_release"
