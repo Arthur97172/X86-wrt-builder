@@ -54,6 +54,23 @@
 > 
 > **"您的每一个⭐️，都是开源土壤里的一缕阳光，让灵感发芽，让创造生长~"**
 
+## 🚀 快速上手步骤
+
+### 1. 开启 Fork 仓库的 Actions 权限
+默认情况下，Fork 后的仓库 GitHub Actions 会处于禁用状态：
+1. 打开你 Fork 后的 GitHub 仓库页面。
+2. 点击顶部导航栏的 **Actions** 标签页。
+3. 点击绿色按钮 **"I understand my workflows, go ahead and enable them"** 启用工作流。
+
+### 2. 运行编译工作流
+> 📌 **提示**：当前版本已简化流程，无需分步运行，直接运行单个工作流即可一键生成最终固件。
+
+1. 进入 **Actions** 页面，在左侧工作流列表中选择 （例如：**`Build x86-64 Wrt-24.10.x`**）。
+2. 点击右上角的 **Run workflow** 下拉菜单。
+3. 在参数配置中，**选中/勾选编译 Docker 或非 Docker 固件**。
+4. 点击 **Run workflow** 按钮启动编译。
+5. 等待任务运行完成（图标变为绿色的 `✔`），即可在 Actions 页面底部的 **Artifacts** 区域或 **Releases** 页面下载编译好的最终固件。
+
 ## 🎉 Thanks [![](https://img.shields.io/badge/-Thanks-FFFFFF.svg)](#-Thanks-)
 - [OpenWrt](https://github.com/Openwrt)
 - [ImmortalWrt](https://github.com/immortalwrt)
