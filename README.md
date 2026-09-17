@@ -63,8 +63,6 @@
 3. 点击绿色按钮 **"I understand my workflows, go ahead and enable them"** 启用工作流。
 
 ### 2. 运行编译工作流
-> 📌 **提示**：当前版本已简化流程，无需分步运行，直接运行单个工作流即可一键生成最终固件。
-
 1. 进入 **Actions** 页面，在左侧工作流列表中选择 （例如：**`Build x86-64 Wrt-24.10.x`**）。
 2. 点击右上角的 **Run workflow** 下拉菜单。
 3. 在参数配置中，**选中/勾选编译 Docker 或非 Docker 固件**。
