@@ -53,11 +53,13 @@
 | Openclash              |  ✅   | Partexp                    |  ✅     | Poweroffdevice           | ✅       |
 | Rtp2httpd              |  ✅   | Tailscale                    |  ✅      | Taskplan           | ✅        |
 | Passwall              |  ✅   | Run                   |  ✅      | Adguardhome           | ✅       |
-
+| Online-upgrade             |  ✅   |
 
 ✅ 支持 - ⏳ 计划中 - ⭕ 不支持
 
-用户可根据自己需要对/shell/custom-packages.sh文件进行调节
+#### 用户可根据自己的实际需要对第三方插件的安装配置文件进行调节 ####
+24.10.x版本 /shell/immortalwrt-custom-packages.sh 或 /shell/openwrt-custom-packages.sh
+25.12.x版本 /shell/apk-immortalwrt-custom-packages.sh 或 /shell/apk-openwrt-custom-packages.sh
 
 </div>
 
