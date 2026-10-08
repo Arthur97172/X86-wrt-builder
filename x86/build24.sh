@@ -149,7 +149,7 @@ PACKAGES="$PACKAGES kmod-nft-socket"
 PACKAGES="$PACKAGES bash"
 PACKAGES="$PACKAGES kmod-tcp-bbr"
 PACKAGES="$PACKAGES tmux"
-PACKAGES="$PACKAGES kmod-mt7921e mt7921bt-firmware-mediatek"
+PACKAGES="$PACKAGES kmod-mt7921e"
 
 # 博通无线网卡核心驱动
 PACKAGES="$PACKAGES kmod-brcmfmac"
