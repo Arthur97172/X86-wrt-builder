@@ -181,8 +181,7 @@ jobs:
             find imagebuilder/ -name "grub.cfg" -exec sed -i 's/console=ttyS0,[0-9a-zA-Z]*//g' {} \;
             echo "✅ 全局检索修复完毕。"
           fi
-
-          
+         
       - name: 🧱 构建 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }} 固件
         working-directory: ./imagebuilder
         env:
