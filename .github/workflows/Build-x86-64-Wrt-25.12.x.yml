@@ -152,22 +152,18 @@ jobs:
           echo "=== repositories 内容 ==="
           cat imagebuilder/repositories
 
-      - name: 🛠️ 修复 x86 GRUB 启动等待问题
+      - name: 🛠️ 修改 x86 GRUB 启动时间
         shell: bash
         run: |
           set -Eeuo pipefail
-
           echo "=== 检查 ImageBuilder 中的 GRUB 文件 ==="
-
           find imagebuilder -type f \
             \( -name 'grub-pc.cfg' -o -name 'grub-efi.cfg' -o -name 'grub.cfg' \) \
             -print
-
           mapfile -t GRUB_TEMPLATES < <(
             find imagebuilder -type f \
               \( -name 'grub-pc.cfg' -o -name 'grub-efi.cfg' \)
           )
-
           if [ "${#GRUB_TEMPLATES[@]}" -eq 0 ]; then
             echo "ERROR: 未找到 grub-pc.cfg 或 grub-efi.cfg。"
             echo "当前 ImageBuilder 可能不包含 GRUB 源模板，不能宣称修复成功。"
@@ -175,35 +171,27 @@ jobs:
             find imagebuilder/target/linux/x86 -maxdepth 4 -type f 2>/dev/null | head -n 200 || true
             exit 1
           fi
-
           for file in "${GRUB_TEMPLATES[@]}"; do
             echo "正在处理: $file"
-
             cp "$file" "$file.bak"
-
             # 禁止初始化 GRUB 串口并强制使用本地屏幕终端
             sed -i \
               -e '/^@SERIAL_CONFIG@/d' \
               -e 's|^@TERMINAL_CONFIG@$|terminal_input console\nterminal_output console|' \
               -e 's|^set timeout=.*|set timeout=0\nset timeout_style=hidden|' \
               "$file"
-
             echo "=== 修改后内容: $file ==="
             cat "$file"
-
             if grep -Eq '^@SERIAL_CONFIG@$|^@TERMINAL_CONFIG@$' "$file"; then
               echo "ERROR: GRUB 串口占位符仍然存在: $file"
               exit 1
             fi
-
             if ! grep -q '^set timeout=0$' "$file"; then
               echo "ERROR: 未能设置 GRUB timeout=0: $file"
               exit 1
             fi
           done
-
           echo "模板修改完成。注意：仍需检查最终镜像中的 grub.cfg。"
-
          
       - name: 🧱 构建 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }} 固件
         working-directory: ./imagebuilder
