@@ -165,36 +165,6 @@ jobs:
         echo "--- 检查更新后的 repositories.conf ---"
         cat imagebuilder/repositories.conf | grep "https"
 
-    - name: 🛠️ 强制剔除 GRUB 串口配置（彻底解决开机卡回车）
-      run: |
-        # 1. 定位 ImageBuilder 下载解压后的 grub.cfg 模板路径
-        GRUB_CFG="imagebuilder/target/linux/x86/image/grub.cfg"
-          
-        if [ -f "$GRUB_CFG" ]; then
-           echo "📢 发现目标 GRUB 模板: $GRUB_CFG，正在执行强力剔除..."
-            
-           # 彻底删除以 serial 开头的整行（不初始化串口硬件）
-          sed -i '/^serial /d' "$GRUB_CFG"
-            
-          # 将输入输出控制台强行修改为纯 console（屏幕控制台）
-          sed -i 's/terminal_input console serial/terminal_input console/g' "$GRUB_CFG"
-          sed -i 's/terminal_output console serial/terminal_output console/g' "$GRUB_CFG"
-            
-          # 滤掉 Linux 内核命令行中可能让系统卡死或等待的 console=ttyS0 串口参数
-          sed -i 's/console=ttyS0,[0-9a-zA-Z]*//g' "$GRUB_CFG"
-            
-          echo "✅ 修复完成！当前 $GRUB_CFG 文件的内容预览如下："
-          cat "$GRUB_CFG"
-        else
-          echo "⚠️ 未在默认路径找到模板，启动全盘检索与越权修改..."
-          # 兜底逻辑：防止未来版本微调路径，直接全局检索 imagebuilder 目录下的所有 grub.cfg 并处理
-          find imagebuilder/ -name "grub.cfg" -exec sed -i '/^serial /d' {} \;
-          find imagebuilder/ -name "grub.cfg" -exec sed -i 's/terminal_input console serial/terminal_input console/g' {} \;
-          find imagebuilder/ -name "grub.cfg" -exec sed -i 's/terminal_output console serial/terminal_output console/g' {} \;
-          find imagebuilder/ -name "grub.cfg" -exec sed -i 's/console=ttyS0,[0-9a-zA-Z]*//g' {} \;
-          echo "✅ 全局检索修复完毕。"
-        fi
-
     - name: 🧱 构建 ${{ env.FINAL_WRT }}-${{ env.FINAL_LUCI_VER }} 固件
       working-directory: ./imagebuilder
       env:
