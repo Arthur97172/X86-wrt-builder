@@ -29,6 +29,7 @@ PACKAGES="$PACKAGES -libustream-mbedtls -libustream-wolfssl"
 PACKAGES="$PACKAGES kmod-tcp-bbr"
 PACKAGES="$PACKAGES uhttpd luci-app-uhttpd"
 PACKAGES="$PACKAGES tmux"
+PACKAGES="$PACKAGES nano"
 PACKAGES="$PACKAGES bash curl tar"
 
 # [Intel 网卡驱动]
