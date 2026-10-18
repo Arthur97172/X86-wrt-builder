@@ -2,7 +2,10 @@
 # 25.12.x 第三方插件配置 (APK 格式) - x86-64 专用
 # 启用第三方插件时取消对应注释
 
-#动态DNS
+#CPU状态 (cpustatus)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-cpu-status"
+
+#动态DNS (ddns)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES ddns-scripts-cloudflare luci-app-ddns luci-i18n-ddns-zh-cn"
 
 #samba4
