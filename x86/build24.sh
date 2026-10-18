@@ -129,6 +129,7 @@ PACKAGES="$PACKAGES -libustream-wolfssl"
 PACKAGES="$PACKAGES -wpad-mbedtls"
 
 #Arthur添加
+PACKAGES="$PACKAGES uhttpd luci-app-uhttpd"
 PACKAGES="$PACKAGES alsa-utils"
 PACKAGES="$PACKAGES busybox"
 PACKAGES="$PACKAGES kmod-tg3"
