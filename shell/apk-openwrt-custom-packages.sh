@@ -2,9 +2,6 @@
 # 25.12.x 第三方插件配置 (APK 格式) - x86-64 专用
 # 启用第三方插件时取消对应注释
 
-#CPU状态 (cpustatus)
-CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-cpu-status"
-
 #动态DNS (ddns)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES ddns-scripts-cloudflare luci-app-ddns luci-i18n-ddns-zh-cn"
 
@@ -37,6 +34,9 @@ CUSTOM_PACKAGES="$CUSTOM_PACKAGES bandix-plus luci-app-bandix-plus luci-i18n-ban
 
 # clashoo代理面板 (clashoo)
 #CUSTOM_PACKAGES="$CUSTOM_PACKAGES clashoo luci-app-clashoo luci-i18n-clashoo-zh-cn"
+
+#CPU状态 (cpustatus)
+CUSTOM_PACKAGES="$CUSTOM_PACKAGES luci-app-cpu-status"
 
 # daede代理面板 (daede)
 CUSTOM_PACKAGES="$CUSTOM_PACKAGES dae daed luci-app-daede"
