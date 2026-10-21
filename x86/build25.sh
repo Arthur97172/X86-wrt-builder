@@ -27,7 +27,7 @@ PACKAGES=""
 PACKAGES="$PACKAGES base-files block-mount ca-bundle ca-certificates dnsmasq-full dropbear fdisk firewall4 fstools grub2-bios-setup i915-firmware-dmc logd luci luci-compat luci-lib-base mkf2fs mtd netifd nftables odhcp6c -odhcpd odhcpd-ipv6only luci-proto-ppp luci-proto-ipv6 partx-utils ppp ppp-mod-pppoe procd-ujail ubus uci uclient-fetch urandom-seed urngd -wpad-basic-mbedtls -wpad-mbedtls -wpad-openssl wpad-mesh-openssl libustream-openssl"
 PACKAGES="$PACKAGES -libustream-mbedtls -libustream-wolfssl"
 PACKAGES="$PACKAGES kmod-tcp-bbr"
-PACKAGES="$PACKAGES uhttpd luci-app-uhttpd"
+PACKAGES="$PACKAGES uhttpd uhttpd-mod-ubus luci-app-uhttpd"
 PACKAGES="$PACKAGES tmux"
 PACKAGES="$PACKAGES nano"
 PACKAGES="$PACKAGES bash curl tar"
@@ -42,9 +42,9 @@ PACKAGES="$PACKAGES kmod-r8101 kmod-r8125 kmod-r8126 kmod-r8168 kmod-r8169 kmod-
 PACKAGES="$PACKAGES kmod-usb-hid kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-core kmod-usb3 kmod-usb2 kmod-brcmfmac kmod-brcmsmac brcmfmac-firmware-usb"
 
 # [无线驱动 - 联发科 mt792x]
-PACKAGES="$PACKAGESk mod-mt7921e kmod-mt7921u mt7921-firmware"
-PACKAGES="$PACKAGESk kmod-mt7925e kmod-mt7925u mt7925-firmware"
-PACKAGES="$PACKAGESk kmod-mt7996e kmod-mt7996-firmware kmod-mt7996-firmware-common"
+PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u mt7921-firmware"
+PACKAGES="$PACKAGES kmod-mt7925e kmod-mt7925u mt7925-firmware"
+PACKAGES="$PACKAGES kmod-mt7996e kmod-mt7996-firmware kmod-mt7996-firmware-common"
 
 # [文件系统]
 PACKAGES="$PACKAGES kmod-fs-f2fs kmod-fs-vfat kmod-nf-nathelper kmod-nf-nathelper-extra kmod-nft-offload kmod-nft-tproxy"
@@ -282,12 +282,6 @@ fi
 # 步骤3: 合并第三方插件到包列表
 # ============================================
 PACKAGES="$PACKAGES $CUSTOM_PACKAGES"
-
-# [Docker 插件]
-if [ "$INCLUDE_DOCKER" = "yes" ]; then
-    echo "🐳 Docker enabled, adding docker packages"
-    PACKAGES="$PACKAGES docker docker-compose luci-app-dockerman luci-i18n-dockerman-zh-cn"
-fi
 
 # 若构建openclash 则添加内核
 if echo "$PACKAGES" | grep -q "luci-app-openclash"; then
