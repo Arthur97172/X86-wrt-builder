@@ -42,8 +42,8 @@ PACKAGES="$PACKAGES kmod-r8101 kmod-r8125 kmod-r8126 kmod-r8168 kmod-r8169 kmod-
 PACKAGES="$PACKAGES kmod-usb-hid kmod-usb-net kmod-usb-net-asix kmod-usb-net-asix-ax88179 kmod-usb-core kmod-usb3 kmod-usb2 kmod-brcmfmac kmod-brcmsmac brcmfmac-firmware-usb"
 
 # [无线驱动 - 联发科 mt792x]
-PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u mt7921-firmware"
-PACKAGES="$PACKAGES kmod-mt7925e kmod-mt7925u mt7925-firmware"
+PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u"
+PACKAGES="$PACKAGES kmod-mt7925e kmod-mt7925u"
 PACKAGES="$PACKAGES kmod-mt7996e kmod-mt7996-firmware kmod-mt7996-firmware-common"
 
 # [文件系统]
