@@ -161,8 +161,8 @@ PACKAGES="$PACKAGES brcmfmac-firmware-43430-sdio"
 PACKAGES="$PACKAGES brcmfmac-firmware-43455-sdio"
 
 #联发科无线网卡核心驱动
-PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u mt7921-firmware"
-PACKAGES="$PACKAGES kmod-mt7925e kmod-mt7925u mt7925-firmware"
+PACKAGES="$PACKAGES kmod-mt7921e kmod-mt7921u"
+PACKAGES="$PACKAGES kmod-mt7925e kmod-mt7925u"
 PACKAGES="$PACKAGES kmod-mt7996e kmod-mt7996-firmware kmod-mt7996-firmware-common"
 
 # LuCI 中文本地化与插件
